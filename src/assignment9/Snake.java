@@ -14,6 +14,8 @@ public class Snake {
 		//FIXME - set up the segments instance variable
 		deltaX = 0;
 		deltaY = 0;
+		this.segments = new LinkedList<BodySegment>();
+		segments.add(new BodySegment(0.5, 0.5, SEGMENT_SIZE));
 	}
 	
 	public void changeDirection(int direction) {
@@ -38,6 +40,13 @@ public class Snake {
 	 */
 	public void move() {
 		//FIXME
+		for (int i = segments.size() - 1; i > 0; i--) {
+			BodySegment prevBS = segments.get(i-1);
+			segments.get(i).setX(prevBS.getX());
+			segments.get(i).setY(prevBS.getY());
+		}
+		segments.get(0).setX(segments.get(0).getX() + deltaX);
+		segments.get(0).setY(segments.get(0).getY() + deltaY);
 	}
 	
 	/**
@@ -45,6 +54,9 @@ public class Snake {
 	 */
 	public void draw() {
 		//FIXME
+		for(int i = 0; i < this.segments.size();i++) {
+			segments.get(i).draw();
+		}
 	}
 	
 	/**
@@ -54,8 +66,13 @@ public class Snake {
 	 */
 	public boolean eatFood(Food f) {
 		//FIXME
-		return false;
-	}
+		double distance = Math.sqrt(Math.pow(f.getX() - segments.get(0).getX(), 2) + Math.pow(f.getY() - segments.get(0).getY(), 2));
+		if (distance <= SEGMENT_SIZE + 0.02) {
+			segments.add(new BodySegment(segments.get(0).getX() - deltaX, segments.get(0).getY() - deltaY, SEGMENT_SIZE));
+			return true;
+		} else 
+			return false;
+		}
 	
 	/**
 	 * Returns true if the head of the snake is in bounds
@@ -63,6 +80,10 @@ public class Snake {
 	 */
 	public boolean isInbounds() {
 		//FIXME
-		return true;
+		if(segments.get(0).getX() <=1 && segments.get(0).getX() >=0 && segments.get(0).getY() <= 1 && segments.get(0).getY() >=0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
