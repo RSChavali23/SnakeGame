@@ -17,7 +17,7 @@ public class Game {
 	}
 	
 	public void play() {
-		while (true) { //TODO: Update this condition to check if snake is in bounds
+		while (snake.isInbounds() == true) { //TODO: Update this condition to check if snake is in bounds
 			int dir = getKeypress();
 			//Testing only: you will eventually need to do more work here
 			System.out.println("Keypress: " + dir);
@@ -30,7 +30,7 @@ public class Game {
 			if (snake.isInbounds() == false) {
 				StdDraw.setPenColor(StdDraw.RED);
 				StdDraw.text(0.5, 0.5, "You Lost! Lol. Try again.");
-				StdDraw.show();
+				}
 			}
 			/*
 			 * 1. Pass direction to your snake
